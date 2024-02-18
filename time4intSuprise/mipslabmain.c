@@ -67,7 +67,8 @@ int main(void) {
 
 	while( 1 )
 	{
-	  labwork(); /* Do lab-specific things again and again */
+	  //labwork(); /* Do lab-specific things again and again */
+	  create_screen(0, 0, 0, 128, 32, screen);
 	}
 	return 0;
 }
