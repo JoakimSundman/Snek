@@ -326,7 +326,7 @@ char * itoaconv( int num )
 
 /*---------------------------------------------------------------*/
 // change this later 
-int offset = 128; // offset for every row on the screen 
+ 
 // Helper function that clears the whole display 
 void clear_display(void)
 {

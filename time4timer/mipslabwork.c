@@ -74,7 +74,7 @@ void labwork( void )
     //clear_display();
     //time2string( textstring, mytime );
     //display_string( 3, textstring );
-    //display_update();
+    display_update();
     tick( &mytime );
     display_image(0, display);
     *portEPointer = *portEPointer + 0b1;
