@@ -6,6 +6,7 @@
 
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
+#include <stdio.h>
 #include "mipslab.h"  /* Declatations for these labs */
 
 /* ------------------------------------------------------------ */
@@ -298,44 +299,6 @@ void display_image(const uint8_t *data) {
 		for(j = 0; j < 128; j++)
 			spi_send_recv(~data[i*128 + j]);
 	}
-}
-
-void display_full_pic(const uint8_t screen[32][128]){
-  int i, j, k, l, s; // index values 
-  uint8_t array_of_bits[8]; // each of the 4 bytes are associated with one array containing 8 bits 
-  uint8_t value = 0;
-  uint8_t screen_decimal[128*4];
-
-  for(i = 0; i < 4; i++){
-    for(j = 0; j < 128; j++){
-      int k = j*8; // i and k are coordinates in the screen 128*32
-      for(l = 0; l < 8; l++){
-        if(screen_decimal[k][i] == 1){
-          array_of_bits[l] = 1;
-        } else {
-          array_of_bits[l] = 0;
-        }
-        l++;
-      }
-      for(s = 7; s >= 0; s--){
-        value = array_of_bits[s] + (value*2);
-      }
-      screen_decimal[i+j*128] = value;
-    }
-  }
-  display_image((const uint8_t*)screen_decimal);
-}
-
-void create_screen(int opposite, int x, int y, int width, int height, uint8_t binary_screen[32][128]) {
-	int sy, sx;
-	int max_width_coord = x + width;
-	int max_height_coord = y + height;
-
-	for(sx = x; sx < max_width_coord; sx++) {
-		for(sy = y; sy < max_height_coord; sy++) {
-			binary_screen[sy][sx] = opposite;
-    } 
-  } 
 }
 
 void display_update(void) {
