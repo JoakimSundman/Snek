@@ -28,7 +28,7 @@ void user_isr( void )
 void labinit( void )
 {
   volatile unsigned *trisEPointer = (unsigned int *) 0xbf886100;
-  *trisEPointer = 0x00; // bits 0 to 7 initilized to 0
+  *trisEPointer = *trisEPointer & 0xffffff00; // bits 0 to 7 initilized to 0
 
   TRISD |= 0x07F0; // bits 11 through 5 initialized to 1
   return;

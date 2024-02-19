@@ -7,6 +7,7 @@
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
+#include <stdlib.h>
 
 /* Declare a helper function which is local to this file */
 static void num32asc( char * s, int ); 
@@ -97,7 +98,7 @@ uint8_t spi_send_recv(uint8_t data) {
 }
 
 void display_init(void) {
-        DISPLAY_CHANGE_TO_COMMAND_MODE;
+  DISPLAY_CHANGE_TO_COMMAND_MODE;
 	quicksleep(10);
 	DISPLAY_ACTIVATE_VDD;
 	quicksleep(1000000);
@@ -155,8 +156,8 @@ void display_image(int x, const uint8_t *data) {
 		
 		DISPLAY_CHANGE_TO_DATA_MODE;
 		
-		for(j = 0; j < 32; j++)
-			spi_send_recv(~data[i*32 + j]);
+		for(j = 0; j < 32*4; j++)
+			spi_send_recv(~data[i*32*4 + j]);
 	}
 }
 
@@ -322,3 +323,16 @@ char * itoaconv( int num )
    * we must add 1 in order to return a pointer to the first occupied position. */
   return( &itoa_buffer[ i + 1 ] );
 }
+
+/*---------------------------------------------------------------*/
+// change this later 
+int offset = 128; // offset for every row on the screen 
+// Helper function that clears the whole display 
+void clear_display(void)
+{
+	int i;
+	for (i = 0; i < 512; i++)
+		display[i] = 255; // Sets all the bits to 1s to turn of pixels.
+	return;
+}
+

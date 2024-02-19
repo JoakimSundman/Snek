@@ -35,7 +35,7 @@ void user_isr( void )
 void labinit( void )
 {
   volatile unsigned *trisEPointer = (unsigned int *) 0xbf886100; // volatile pointer that points to TRISE in memory
-  *trisEPointer = 0x00; // volatile pointer sets bits 0 through 7 to outputs                     handles LEDS
+  *trisEPointer = *trisEPointer & 0xffffff00; // volatile pointer sets bits 0 through 7 to outputs                     handles LEDS
 
   TRISD |= 0x07F0; // Sets bits 5 to 11 to inputs, bitwise or |= leaves other bits unchanged, 8-11 SWITCHES, 5-7 BTNS
 
@@ -45,13 +45,24 @@ void labinit( void )
   TMR2 = 0x0; // clears the counter value of timer 2 
   IFSCLR(0) = 0x0; // clears the interrupt flag status 
   T2CONSET = 0x8000; // sets bit 15 to 1 stating the clock 
-  return;
+
+  // clear incase of shit still left 
+  display_string(0, "");
+	display_string(1, "");
+	display_string(2, "");
+	display_string(3, "");
+	display_update();
+}
+
+void gameinit(void){
+  clear_display();
 }
 
 /* This function is called repetitively from the main program */
 void labwork( void )
 {
   volatile unsigned *portEPointer = (unsigned int *) 0xbf886110; // volatile pointer that points to PORTE in memory 
+  volatile int * port = 0xffffffff;
 
   if(IFS(0) & 0x100){ // if interupt flag status have a 1 on the 9th bit reset 
     IFSCLR(0) = 0x100;
@@ -60,11 +71,12 @@ void labwork( void )
 
   if(timeoutcounter == 10){
     timeoutcounter = 0;
-    time2string( textstring, mytime );
-    display_string( 3, textstring );
-    display_update();
+    //clear_display();
+    //time2string( textstring, mytime );
+    //display_string( 3, textstring );
+    //display_update();
     tick( &mytime );
-    display_image(96, icon);
+    display_image(0, display);
     *portEPointer = *portEPointer + 0b1;
   }
 
