@@ -53,6 +53,7 @@ int main(void) {
 	SPI2CONSET = 0x20;
 	/* SPI2CON bit ON = 1; */
 	SPI2CONSET = 0x8000;
+
 	
 	display_init();
 	display_string(0, "		SNEK	");

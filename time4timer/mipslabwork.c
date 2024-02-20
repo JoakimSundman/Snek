@@ -56,13 +56,13 @@ void labinit( void )
 
 void gameinit(void){
   clear_display();
+  display_board();
 }
 
 /* This function is called repetitively from the main program */
 void labwork( void )
 {
   volatile unsigned *portEPointer = (unsigned int *) 0xbf886110; // volatile pointer that points to PORTE in memory 
-  volatile int * port = 0xffffffff;
 
   if(IFS(0) & 0x100){ // if interupt flag status have a 1 on the 9th bit reset 
     IFSCLR(0) = 0x100;
@@ -74,9 +74,9 @@ void labwork( void )
     //clear_display();
     //time2string( textstring, mytime );
     //display_string( 3, textstring );
-    display_update();
     tick( &mytime );
-    display_image(0, display);
+    display_board();
+    display_update();
     *portEPointer = *portEPointer + 0b1;
   }
 
