@@ -57,6 +57,7 @@ void labinit( void )
 void gameinit(void){
   clear_display();
   display_board();
+  draw_board();
 }
 
 /* This function is called repetitively from the main program */
@@ -76,7 +77,7 @@ void labwork( void )
     //display_string( 3, textstring );
     tick( &mytime );
     display_board();
-    display_update();
+    //display_update();
     *portEPointer = *portEPointer + 0b1;
   }
 
