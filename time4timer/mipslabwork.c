@@ -14,11 +14,22 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
+#define MAX_SCREEN_WIDTH 128
+#define MAX_SCREEN_LENGTH 32
+
 int mytime = 0x5957;
+
+int x_dir = 1; 
+int y_dir;
+int x_pos;
+int y_pos;
+int length_snake = 2;
+int snake[1][2];
 
 char textstring[] = "text, more text, and even more text!";
 
 int timeoutcounter = 0;
+
 
 /* Interrupt Service Routine */
 void user_isr( void )
@@ -54,10 +65,24 @@ void labinit( void )
 	display_update();
 }
 
+void snakeinit(void){
+  x_pos = MAX_SCREEN_WIDTH/2;
+  y_pos = MAX_SCREEN_LENGTH/2;
+  one_pixel_update(x_pos,y_pos,1);
+}
+
 void gameinit(void){
   clear_display();
   display_board();
-  //draw_board();
+  draw_board();
+  snakeinit();
+}
+
+void move_snake(void){
+  one_pixel_update(x_pos,y_pos,0);
+  x_pos = x_pos + x_dir;
+  one_pixel_update(x_pos,y_pos,1);
+
 }
 
 /* This function is called repetitively from the main program */
@@ -72,21 +97,11 @@ void labwork( void )
 
   if(timeoutcounter == 10){
     timeoutcounter = 0;
-    //clear_display();
-    //time2string( textstring, mytime );
-    //display_string( 3, textstring );
     tick( &mytime );
     display_board();
-    one_pixel_update(5,5,0);
-    one_pixel_update(6,5,0);
-    /*one_pixel_update(5,7,0);
-    one_pixel_update(5,8,0);
-    one_pixel_update(6,5,0);
-    one_pixel_update(6,6,0);
-    one_pixel_update(6,7,0);
-    one_pixel_update(6,8,0);*/
-    //draw_board();
-    //display_update();
+    draw_board();
+    //snakeinit();
+    move_snake();
     *portEPointer = *portEPointer + 0b1;
   }
 
