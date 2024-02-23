@@ -9,6 +9,7 @@
 #include "mipslab.h"  /* Declatations for these labs */
 
 char textbuffer[4][16];
+char displaybuffer[512];
 
 const uint8_t const font[] = {
 	0, 0, 0, 0, 0, 0, 0, 0,

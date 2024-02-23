@@ -23,7 +23,7 @@ int x_dir = 1;
 int y_dir;
 int x_pos;
 int y_pos;
-int length_snake = 2;
+int length_snake = 0;
 int snake[1][2];
 
 char textstring[] = "text, more text, and even more text!";
@@ -66,7 +66,7 @@ void labinit( void )
 }
 
 void snakeinit(void){
-  x_pos = MAX_SCREEN_WIDTH/2;
+  x_pos = 1;//MAX_SCREEN_WIDTH/2;
   y_pos = MAX_SCREEN_LENGTH/2;
   one_pixel_update(x_pos,y_pos,1);
 }
@@ -79,9 +79,13 @@ void gameinit(void){
 }
 
 void move_snake(void){
-  one_pixel_update(x_pos,y_pos,0);
+  //one_pixel_update(x_pos,y_pos,0);
   x_pos = x_pos + x_dir;
   one_pixel_update(x_pos,y_pos,1);
+  length_snake++;
+  if(length_snake == 5){
+
+  }
 
 }
 
@@ -96,6 +100,7 @@ void labwork( void )
   }  
 
   if(timeoutcounter == 10){
+    clear_display();
     timeoutcounter = 0;
     tick( &mytime );
     display_board();
