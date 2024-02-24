@@ -10,6 +10,7 @@ int getsw(void){
 
 int getbtns(void){
     int btnsReturn;
-    btnsReturn = (PORTD >> 5) & 0x7; // might be shift 5
+    btnsReturn = (PORTD >> 5) & 0x7;
+    btnsReturn |= ((PORTF >> 1) & 0x1) << 3;
     return btnsReturn;
 }

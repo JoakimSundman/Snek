@@ -379,7 +379,6 @@ void clear_display(void)
 }
 
 void display_board(void){
-  
   display_image(0,display);
 }
 
@@ -389,10 +388,10 @@ void one_pixel_update(int x, int y, int state){ // function to turn one pixel on
     uint8_t y_bit_offset = y % 8;
 
     if(state == 1){ // turn on pixel
-      displaybuffer[pos] &= ~(0b1 << y_bit_offset);
+      display[pos] &= ~(0b1 << y_bit_offset);
     }
     else if (state == 0){ // turn off pixel
-      displaybuffer[pos] |= (0b1 << y_bit_offset);
+      display[pos] |= (0b1 << y_bit_offset);
     }
   }
 }
