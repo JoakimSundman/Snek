@@ -22,6 +22,12 @@
   
 .global delay
 .global time2string
+.global enable_interrupt
+
+enable_interrupt:
+	ei 
+	jr $ra
+	nop
 
 hexasc:#Ska returna v0	# Ska ha en inparameter a0 
 	andi $a0, $a0, 0xF

@@ -11,6 +11,7 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
+
 int main(void) {
         /*
 	  This will set the peripheral bus clock to the same frequency
@@ -63,10 +64,7 @@ int main(void) {
 	display_update();
 	
 	quicksleep(2000000);
-	display_string(0, "");
-	display_string(1, "");
-	display_string(2, "");
-	display_string(3, "");
+	display_start();
 	display_update();
 	
 	labinit(); /* Do any lab-specific initialization */
