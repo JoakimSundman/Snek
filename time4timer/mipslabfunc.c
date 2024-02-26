@@ -425,37 +425,35 @@ void display_board(void){
   display_image(0,display);
 }
 
-void display_start(void){
-  display_image(0, start_test);
-}
+void draw_pixel(int x, int y){ // function to turn one pixel on or off 
+  // Handles values of list by inserting x and y coordinates as inputs
+  int y_byte_offset = y/8;     
+  int disp_idx = y_byte_offset*128 + x;   // total x_offset is disp_idx - y_byte_offset*(columns/page)
+  uint8_t y_bit_offset = y % 8;
+  //total y offset is 8*y_byte_offset + y_bit_offset
+  // Turns on a pixel
+  uint8_t bitmask = 0b1 << y_bit_offset;  // Creates a bitmask the corresponds with thre offset
+  bitmask = ~(bitmask);                   // Inverts the bitmask due to inverted logic
+  display[disp_idx] &= bitmask;    // & operation with the inversed bitmask
+  /*int cords = ((y/8)*128)+x;
+  uint8_t y_bit_offset = y % 8;
 
-void one_pixel_update(int x, int y, int state){ // function to turn one pixel on or off 
-  if(x>=0 && x<=127 && y>=0 && y<=31){
-    int pos = ((y/8)*128)+x;
-    uint8_t y_bit_offset = y % 8;
-
-    if(state == 1){ // turn on pixel
-      display[pos] &= ~(0b1 << y_bit_offset);
-    }
-    else if (state == 0){ // turn off pixel
-      display[pos] |= (0b1 << y_bit_offset);
-    }
-  }
+  display[cords] &= ~(0b1 << y_bit_offset);*/
 }
 
 void draw_board(void){
   int x;
   int y;
   for(x = 0; x < 128; x++){
-    one_pixel_update(x, 0, 1);
+    draw_pixel(x, 0);
   }
   for(x = 0; x < 128; x++){
-    one_pixel_update(x, 31, 1);
+    draw_pixel(x, 31);
   }
   for(y = 0; y < 32; y++){
-    one_pixel_update(0, y, 1);
+    draw_pixel(0, y);
   }
   for(y = 0; y < 32; y++){
-    one_pixel_update(127, y, 1);
+    draw_pixel(127, y);
   }
 }
