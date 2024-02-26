@@ -70,7 +70,6 @@ void labinit( void )
 }
 
 void random_apple (void){
-  volatile unsigned *portEPointer = (unsigned int *) 0xbf886110;
   int random_x;
   int random_y;
   int i; 
@@ -84,15 +83,12 @@ void random_apple (void){
     for(i = 0; i < 512; i++){
       if(snake_array[i][0] == random_x && snake_array[i][1] == random_y){
         condition = 0;
-        *portEPointer = *portEPointer + 0b1;
       }
       if(random_x < 0 || random_y < 0){
         condition = 0;
-        *portEPointer = *portEPointer + 0b1;
       }
       if(random_x > 126 || random_y > 126){
         condition = 0;
-        *portEPointer = *portEPointer + 0b1;
       }
     }
   }
@@ -128,42 +124,6 @@ void gameinit(void){
   display_board();
 }
 
-/*void random_apple(){
-    int condition = 0;
-    int random_x;
-    int random_y;
-    int i;
-    while(condition == 0){                      // Makes sure that randomized numbers are not in snake
-        condition = 1;
-        random_x = (rand() % 126) + 1;
-        random_y = (rand() % 30) + 1;
-        for(i = 0; i < 512; i++){
-            if(snake_array[i][0] == random_x & snake_array[i][1] == random_y){
-                condition = 0;
-            }
-        }
-    }
-    apple[0] = random_x;
-    apple[1] = random_y;
-}*/
-
-/*void random_apple(){
-  int x = 54;
-  int y = 12;
-
-  int x2 = 17;
-  int y2 = 12;
-
-  if(apple[0] == x && apple[1] == y){
-    apple[0] = x2;
-    apple[1] = y2;
-  } else if(apple[0] == x2 && apple[1] == y2){
-    apple[0] = x;
-    apple[1] = y;
-  }
-
-}*/
-
 void move_snake(void){
   int snake_head[2] = {snake_array[0][0] + speed[0], snake_array[0][1] + speed[1]}; // Svaes next position of the head 
   int apple_round = 0; 
@@ -171,7 +131,7 @@ void move_snake(void){
 
   if(snake_head[0] == apple[0] && snake_head[1] == apple[1]){
     apple_round = 1;
-    /*portEPointer = *portEPointer + 0b1;*/
+    portEPointer = *portEPointer + 0b1;*/
     length_snake++;
   }
 
