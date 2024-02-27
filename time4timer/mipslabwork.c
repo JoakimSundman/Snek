@@ -18,7 +18,7 @@
 
 int mytime = 0x5957;
 
-// testing 
+// testing 2
 
 // Snake parameters 
 int length_snake;
