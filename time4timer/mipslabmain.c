@@ -109,28 +109,22 @@ int main(void) {
 
 	
 	display_init();
-	display_image(0, snake_no_tongue);
-	quicksleep(5000000);
-	display_update();
-	display_image(0, snake_with_tongue);
-	quicksleep(5000000);
-	display_update();
-	display_image(0, snake_no_tongue);
-	quicksleep(5000000);
-	display_update();
-	display_image(0, snake_with_tongue);
-	quicksleep(5000000);
-	display_update();
-	display_image(0, snake_no_tongue);
-	quicksleep(5000000);
-	display_update();
-
-	display_string(0,"DOWN, UP, LEFT, RIGHT");
-	display_string(1,"BTN4, BTN3, BTN2, BTN1");
+	display_string(0,"L, U, D, R");
+	display_string(1,"B4, B3, B2, B1");
 	display_string(2,"Pause, Unpause");
-	display_string(3,"SW1, SW2");
-	quicksleep(10000000);
+	display_string(3,"SW1, 	 SW2");
 	display_update();
+	quicksleep(20000000);
+	display_image(0, snake_no_tongue);
+	quicksleep(5000000);
+	display_image(0, snake_with_tongue);
+	quicksleep(5000000);
+	display_image(0, snake_no_tongue);
+	quicksleep(5000000);
+	display_image(0, snake_with_tongue);
+	quicksleep(5000000);
+	display_image(0, snake_no_tongue);
+	quicksleep(5000000);
 	
 	labinit(); /* Do any lab-specific initialization */
 	gameinit();

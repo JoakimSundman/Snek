@@ -19,14 +19,10 @@
 int mytime = 0x5957;
 
 // Snake parameters 
-int x_dir; 
-int y_dir;
-int x_pos;
-int y_pos;
 int length_snake;
 int snake_array[512][2];
 int speed[2] = {1, 0};
-int apple[2] = {54, 12};
+int apple[2];
 int dead;
 int paused;
 int seed = 4567;
@@ -102,10 +98,10 @@ void snakeinit(void){
   volatile unsigned *portEPointer = (unsigned int *) 0xbf886110; // volatile pointer that points to PORTE in memory 
   *portEPointer = 0;
   dead = 0; 
+  int x_pos;
+  int y_pos;
   x_pos = MAX_SCREEN_WIDTH/2;
   y_pos = MAX_SCREEN_LENGTH/2;
-  x_dir = 1;
-  y_dir = 0;
   length_snake = 4;
   int i;
   for(i = 0; i < 512; i++){
@@ -125,6 +121,7 @@ void gameinit(void){
   clear_display();
   draw_board();
   snakeinit();
+  random_apple();
   display_board();
 }
 
@@ -137,7 +134,7 @@ void move_snake(void){
 
   if(snake_head[0] == apple[0] && snake_head[1] == apple[1]){
     apple_round = 1;
-    portEPointer = *portEPointer + 0b1;*/
+    *portEPointer = *portEPointer + 0b1;
     length_snake++;
   }
 
@@ -199,7 +196,7 @@ void labwork( void )
     IFSCLR(0) = 0x100;
     timeoutcounter++;
     if(seed >= 15000){
-      seed = 3291;
+      seed = seed % 126;
     }
     seed = seed + 13;
   }  
@@ -242,24 +239,24 @@ void labwork( void )
   int btnsPressed = getbtns();
   int currentSwConfig;
 
+  if((btnsPressed & 0b1) && speed[1] == 0){ //BTN2
+    speed[0] = 0;
+    speed[1] = 1;
+  }
+  if((btnsPressed & 0b10) && speed[1] == 0){ //BTN3
+    speed[0] = 0;
+    speed[1] = -1;
+  }
+  if((btnsPressed & 0b100) && speed[0] == 0){ //BTN4 
+    speed[0] = -1;
+    speed[1] = 0;
+  }
   if((btnsPressed & 0b1000) && speed[0] == 0 || (btnsPressed & 0b1000) && (dead == 1)){ //BTN1
     speed[0] = 1;
     speed[1] = 0;
     if(dead == 1){
       gameinit(); 
     }
-  }
-  if((btnsPressed & 0b1) && speed[0] == 0){ //BTN2
-    speed[0] = -1;
-    speed[1] = 0;
-  }
-  if((btnsPressed & 0b10) && speed[1] == 0){ //BTN3
-    speed[0] = 0;
-    speed[1] = -1;
-  }
-  if((btnsPressed & 0b100) && speed[1] == 0){ //BTN4
-    speed[0] = 0;
-    speed[1] = 1; 
   }
 
   if(swPressed & 0b1){
