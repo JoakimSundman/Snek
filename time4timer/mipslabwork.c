@@ -3,8 +3,7 @@
    This file written 2015 by F Lundevall
    Updated 2017-04-21 by F Lundevall
 
-   This file should be changed by YOU! So you must
-   add comment(s) here with your name(s) and date(s):
+   Updated 2024-02-27 by Joakim Sundman & Julius Larsson
 
    This file modified 2017-04-31 by Ture Teknolog 
 
@@ -13,7 +12,6 @@
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
-#include <stdlib.h>
 
 #define MAX_SCREEN_WIDTH 128
 #define MAX_SCREEN_LENGTH 32
@@ -69,6 +67,8 @@ void labinit( void )
   IECSET(0) = 0x8000;           // Sets bit 16 to initialize 
 }
 
+
+//
 void random_apple (void){
   int random_x;
   int random_y;
@@ -96,6 +96,8 @@ void random_apple (void){
   apple[1] = random_y;
 }
 
+
+//
 void snakeinit(void){
   volatile unsigned *portEPointer = (unsigned int *) 0xbf886110; // volatile pointer that points to PORTE in memory 
   *portEPointer = 0;
@@ -116,6 +118,8 @@ void snakeinit(void){
   }
 }
 
+
+//
 void gameinit(void){
   paused = 0; 
   clear_display();
@@ -124,6 +128,8 @@ void gameinit(void){
   display_board();
 }
 
+
+//
 void move_snake(void){
   int snake_head[2] = {snake_array[0][0] + speed[0], snake_array[0][1] + speed[1]}; // Svaes next position of the head 
   int apple_round = 0; 
