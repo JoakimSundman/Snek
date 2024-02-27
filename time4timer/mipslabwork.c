@@ -16,10 +16,6 @@
 #define MAX_SCREEN_WIDTH 128
 #define MAX_SCREEN_LENGTH 32
 
-int mytime = 0x5957;
-
-// testing 2
-
 // Snake parameters 
 int length_snake;
 int snake_array[512][2];
@@ -66,7 +62,7 @@ void labinit( void )
 }
 
 
-//
+// Written by Joakim Sundman
 void random_apple (void){
   int random_x;
   int random_y;
@@ -95,7 +91,7 @@ void random_apple (void){
 }
 
 
-//
+// Written by Joakim Sundman
 void snakeinit(void){
   volatile unsigned *portEPointer = (unsigned int *) 0xbf886110; // volatile pointer that points to PORTE in memory 
   *portEPointer = 0;
@@ -117,7 +113,7 @@ void snakeinit(void){
 }
 
 
-//
+// Written by Julius Larsson 
 void gameinit(void){
   paused = 0; 
   clear_display();
@@ -128,7 +124,7 @@ void gameinit(void){
 }
 
 
-//
+// Written by Julius Larsson
 void move_snake(void){
   int snake_head[2] = {snake_array[0][0] + speed[0], snake_array[0][1] + speed[1]}; // Svaes next position of the head 
   int apple_round = 0; 
@@ -178,6 +174,7 @@ void move_snake(void){
   }
 }
 
+// Written by Julius Larsson
 void print_snake(void){
   int i;
   for(i = 0; i < 512; i++){
@@ -188,8 +185,8 @@ void print_snake(void){
   draw_pixel(apple[0], apple[1]);
 }
 
-/* This function is called repetitively from the main program */
-void labwork( void )
+// Written by both during different times (mainly Joakim)
+void game( void )
 {
   volatile unsigned *portEPointer = (unsigned int *) 0xbf886110; // volatile pointer that points to PORTE in memory 
   int score;  
@@ -206,7 +203,6 @@ void labwork( void )
     if(timeoutcounter == 6){
       clear_display();
       timeoutcounter = 0;
-      tick( &mytime );
       draw_board();
       move_snake();
       print_snake();
@@ -216,7 +212,6 @@ void labwork( void )
     if(timeoutcounter == 6){
       timeoutcounter = 0; 
       clear_display(); 
-      tick( &mytime );
       score = (length_snake - 4) * 100;
       display_string(0,"Game Over  ");
       display_string(1,"Your Score:  ");
@@ -228,7 +223,6 @@ void labwork( void )
     if(timeoutcounter == 6){
       timeoutcounter = 0;
       clear_display(); 
-      tick( &mytime );
       display_string(0,itoaconv(apple[0]));
       display_string(1,"  Paused  ");
       display_string(2,itoaconv(apple[1]));

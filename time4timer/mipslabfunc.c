@@ -70,28 +70,6 @@ void tick( unsigned int * timep )
   * timep = t; /* Store new value */
 }
 
-/* display_debug
-   A function to help debugging.
-
-   After calling display_debug,
-   the two middle lines of the display show
-   an address and its current contents.
-
-   There's one parameter: the address to read and display.
-
-   Note: When you use this function, you should comment out any
-   repeated calls to display_image; display_image overwrites
-   about half of the digits shown by display_debug.
-*/   
-void display_debug( volatile int * const addr )
-{
-  display_string( 1, "Addr" );
-  display_string( 2, "Data" );
-  num32asc( &textbuffer[1][6], (int) addr );
-  num32asc( &textbuffer[2][6], *addr );
-  display_update();
-}
-
 uint8_t spi_send_recv(uint8_t data) {
 	while(!(SPI2STAT & 0x08));
 	SPI2BUF = data;
@@ -195,55 +173,6 @@ static void num32asc( char * s, int n )
   for( i = 28; i >= 0; i -= 4 )
     *s++ = "0123456789ABCDEF"[ (n >> i) & 15 ];
 }
-
-/*
- * nextprime
- * 
- * Return the first prime number larger than the integer
- * given as a parameter. The integer must be positive.
- */
-#define PRIME_FALSE   0     /* Constant to help readability. */
-#define PRIME_TRUE    1     /* Constant to help readability. */
-int nextprime( int inval )
-{
-   register int perhapsprime = 0; /* Holds a tentative prime while we check it. */
-   register int testfactor; /* Holds various factors for which we test perhapsprime. */
-   register int found;      /* Flag, false until we find a prime. */
-
-   if (inval < 3 )          /* Initial sanity check of parameter. */
-   {
-     if(inval <= 0) return(1);  /* Return 1 for zero or negative input. */
-     if(inval == 1) return(2);  /* Easy special case. */
-     if(inval == 2) return(3);  /* Easy special case. */
-   }
-   else
-   {
-     /* Testing an even number for primeness is pointless, since
-      * all even numbers are divisible by 2. Therefore, we make sure
-      * that perhapsprime is larger than the parameter, and odd. */
-     perhapsprime = ( inval + 1 ) | 1 ;
-   }
-   /* While prime not found, loop. */
-   for( found = PRIME_FALSE; found != PRIME_TRUE; perhapsprime += 2 )
-   {
-     /* Check factors from 3 up to perhapsprime/2. */
-     for( testfactor = 3; testfactor <= (perhapsprime >> 1) + 1; testfactor += 1 )
-     {
-       found = PRIME_TRUE;      /* Assume we will find a prime. */
-       if( (perhapsprime % testfactor) == 0 ) /* If testfactor divides perhapsprime... */
-       {
-         found = PRIME_FALSE;   /* ...then, perhapsprime was non-prime. */
-         goto check_next_prime; /* Break the inner loop, go test a new perhapsprime. */
-       }
-     }
-     check_next_prime:;         /* This label is used to break the inner loop. */
-     if( found == PRIME_TRUE )  /* If the loop ended normally, we found a prime. */
-     {
-       return( perhapsprime );  /* Return the prime we found. */
-     } 
-   }
-   return( perhapsprime );      /* When the loop ends, perhapsprime is a real prime. */
-} 
 
 /*
  * itoa
@@ -372,61 +301,21 @@ uint8_t display[] = {
 	
 };
 
-const uint8_t start_test[] = {
-// page 1 
-//  1       2       3       4       5       6       7       8       9       10      11      12      13      14      15      16
-	255,    255,    255,    255,    255,    255,    255,    255,    255,    223,    255,    255,    255,    255,    255,    159,
-	255,    255,    255,    255,    255,    255,    255,    255,    255,    223,    127,    255,    255,    255,    255,    63,
-	255,    255,    255,    255,    255,    255,    255,    255,    255,    38,     63,     255,    255,    255,    255,    127,
-	252,    0,      255,    63,     15,     224,     31,    225,    129,    255,    255,    255,    255,    255,    255,    127,
-	252,    0,      255,    63,     15,     224,     31,    225,    129,    255,    255,    255,    255,    255,    255,    255,
-	252,    0,      255,    63,     15,     224,     31,    225,    129,    255,    255,    255,    255,    255,    255,    255,
-	243,    252,    60,     15,     15,     135,    135,    129,    225,    255,    255,    255,    255,    255,    255,    255,
-	243,    252,    60,     15,     15,     135,    135,    129,    225,    255,    255,    255,    255,    255,    255,    255,
-
-	// page 2 
-	243,    252,    60,    15,      15,     135,    135,    129,    225,    255,    255,    255,    255,    255,    255,    255,
-	192,    255,    255,    3,      14,     31,     255,    225,    207,    255,    255,    255,    255,    255,    255,    255,
-	192,    255,    255,    3,      14,     31,     255,    225,    207,    255,    255,    255,    255,    255,    255,    255,
-	240,    0,      255,    0,      14,     0,      31,     225,    159,    255,    255,    255,    255,    255,    255,    255,
-	240,    0,      255,    0,      14,     0,      31,     225,    159,    255,    255,    255,    255,    255,    255,    255,
-	240,    0,      255,    0,      14,     0,      31,     225,    159,    255,    255,    255,    255,    255,    255,    255,
-	255,    240,    63,    12,      14,     31,     255,    224,    255,    255,    255,    255,    255,    255,    255,    255,
-	255,    240,    63,    12,      14,     31,     255,    224,    255,    255,    255,    255,    255,    255,    255,    255,
-
-	// page 3 
-	255,    240,    63,    12,      14,     31,    255,     224,    255,    255,    255,    255,    255,    255,    255,    255,
-	255,    252,    63,    15,      14,     31,    255,     224,    63,    255,    255,    255,    255,    255,    255,    255,
-	255,    252,    63,    15,      14,     31,    255,     224,    63,    255,    255,    255,    255,    255,    255,    255,
-	255,    252,    63,    15,      14,     31,    255,     224,    63,    255,    255,    255,    255,    255,    255,    255,
-    231,    252,    63,    15,      14,     7,      255,    224,    57,    255,    255,    255,    255,    255,    255,    255,
-	231,    252,    63,    15,      14,     7,      255,    224,    57,    255,    255,    255,    255,    255,    255,    255,
-	183,    240,    255,    15,     15,     128,    31,     195,    129,    255,    255,    255,    255,    255,    255,    255,
-	183,    240,    255,    15,     15,     128,    31,     195,    129,    255,    255,    255,    255,    255,    255,    255,
-
-	// page 4 
-	183,    240,    255,    15,     15,     128,    31,     195,    129,    255,    255,    255,    255,    255,    255,    255,
-	240,    15,     255,    63,     63,     31,     127,    207,    231,    255,    255,    255,    255,    255,    255,    255,
-	240,    15,     255,    63,     63,     31,     127,    207,    231,    255,    255,    255,    255,    255,    255,    255,
-	240,    15,     255,    63,     63,     31,     127,    207,    231,    255,    255,    255,    255,    255,    255,    255,
-	255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    55,     255,    255,    255,
-	255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,
-	255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,
-	255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,    255,
-};
-
+// Written by Joakim Sundman
 void clear_display(void)
 {
   int i;
-	for (i = 0; i < 512; i++)
-		display[i] = 255; 
-	return;
+	for (i = 0; i < 512; i++){
+    display[i] = 255;
+  }
 }
 
+// Helper function used in labwork
 void display_board(void){
   display_image(0,display);
 }
 
+// Written by Julius Larsson 
 void draw_pixel(int x, int y){ // function to turn one pixel on or off 
   // Handles values of list by inserting x and y coordinates as inputs
   int y_byte_offset = y/8;     
@@ -437,12 +326,9 @@ void draw_pixel(int x, int y){ // function to turn one pixel on or off
   uint8_t bitmask = 0b1 << y_bit_offset;  // Creates a bitmask the corresponds with thre offset
   bitmask = ~(bitmask);                   // Inverts the bitmask due to inverted logic
   display[disp_idx] &= bitmask;    // & operation with the inversed bitmask
-  /*int cords = ((y/8)*128)+x;
-  uint8_t y_bit_offset = y % 8;
-
-  display[cords] &= ~(0b1 << y_bit_offset);*/
 }
 
+// Written by Joakim Sundman
 void draw_board(void){
   int x;
   int y;
