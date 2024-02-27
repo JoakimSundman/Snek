@@ -179,10 +179,10 @@ void print_snake(void){
   int i;
   for(i = 0; i < 512; i++){
     if(snake_array[i][0] != 0 && snake_array[i][1] != 0){
-      draw_pixel(snake_array[i][0], snake_array[i][1]);
+      light_pixel(snake_array[i][0], snake_array[i][1]);
     }
   }
-  draw_pixel(apple[0], apple[1]);
+  light_pixel(apple[0], apple[1]);
 }
 
 // Written by both during different times (mainly Joakim)
@@ -223,9 +223,9 @@ void game( void )
     if(timeoutcounter == 6){
       timeoutcounter = 0;
       clear_display(); 
-      display_string(0,itoaconv(apple[0]));
+      display_string(0,"  ");
       display_string(1,"  Paused  ");
-      display_string(2,itoaconv(apple[1]));
+      display_string(2,"  ");
       display_string(3,"  Switch SW2  ");
       display_update();
     }
@@ -233,7 +233,6 @@ void game( void )
 
   int swPressed = getsw();
   int btnsPressed = getbtns();
-  int currentSwConfig;
 
   if((btnsPressed & 0b1) && speed[1] == 0){ //BTN2
     speed[0] = 0;

@@ -8,6 +8,7 @@ int getsw(void){
     return swReturn;
 }
 
+// From lab 3, changed by Julius Larsson 
 int getbtns(void){
     int btnsReturn;
     btnsReturn = (PORTD >> 5) & 0x7;

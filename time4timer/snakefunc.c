@@ -316,7 +316,7 @@ void display_board(void){
 }
 
 // Written by Julius Larsson 
-void draw_pixel(int x, int y){ // function to turn one pixel on or off 
+void light_pixel(int x, int y){ // function to turn one pixel on or off 
   // Handles values of list by inserting x and y coordinates as inputs
   int y_byte_offset = y/8;     
   int disp_idx = y_byte_offset*128 + x;   // total x_offset is disp_idx - y_byte_offset*(columns/page)
@@ -333,15 +333,15 @@ void draw_board(void){
   int x;
   int y;
   for(x = 0; x < 128; x++){
-    draw_pixel(x, 0);
+    light_pixel(x, 0);
   }
   for(x = 0; x < 128; x++){
-    draw_pixel(x, 31);
+    light_pixel(x, 31);
   }
   for(y = 0; y < 32; y++){
-    draw_pixel(0, y);
+    light_pixel(0, y);
   }
   for(y = 0; y < 32; y++){
-    draw_pixel(127, y);
+    light_pixel(127, y);
   }
 }

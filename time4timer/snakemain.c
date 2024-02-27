@@ -13,6 +13,7 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
+// Written by Julius Larsson 
 const uint8_t snake_no_tongue[] = {
 		// page 1 
 //  	1       2       3       4       5       6       7       8       9       10      11      12      13      14      15      16      17      18      19      20      21      22      23      24      25      26      27      28      29      30      31      32
@@ -38,6 +39,7 @@ const uint8_t snake_no_tongue[] = {
 /*R4*/	254,    253,    243,    241,    229,    237,    237,    237,    237,    237,    237,    237,    238,    230,    246,    247,    247,    243,    251,    251,    251,    253,    253,    253,    254,    254,    255,    255,    255,    255,    255,    255,
 };
 
+// Written by Julius Larsson 
 const uint8_t snake_with_tongue[] = {
 		// page 1 
 //  	1       2       3       4       5       6       7       8       9       10      11      12      13      14      15      16      17      18      19      20      21      22      23      24      25      26      27      28      29      30      31      32
@@ -115,14 +117,13 @@ int main(void) {
 	display_string(3,"SW1, 	 SW2");
 	display_update();
 	quicksleep(20000000);
-	display_image(0, snake_no_tongue);
-	quicksleep(5000000);
-	display_image(0, snake_with_tongue);
-	quicksleep(5000000);
-	display_image(0, snake_no_tongue);
-	quicksleep(5000000);
-	display_image(0, snake_with_tongue);
-	quicksleep(5000000);
+	int i;
+	for(i = 0; i < 3; i++){
+		display_image(0, snake_no_tongue);
+		quicksleep(5000000);
+		display_image(0, snake_with_tongue);
+		quicksleep(5000000);
+	}
 	display_image(0, snake_no_tongue);
 	quicksleep(5000000);
 	
