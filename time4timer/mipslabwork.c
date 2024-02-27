@@ -18,6 +18,8 @@
 
 int mytime = 0x5957;
 
+// testing 
+
 // Snake parameters 
 int length_snake;
 int snake_array[512][2];
