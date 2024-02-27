@@ -130,8 +130,6 @@ int main(void) {
 	labinit(); /* Do any lab-specific initialization */
 	gameinit();
 
-	int i = 0;
-
 	while( 1 )
 	{
 	  game(); /* Do lab-specific things again and again */
