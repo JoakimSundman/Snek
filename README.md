@@ -5,8 +5,8 @@ To install on your chipkit, you need MCB32Toolchain, navigate to the folder and 
 
 How to play: 
 
-Left Up Down Right 
-BTN4 BTN3 BTN2 BTN1
+Left Up Down Right   
+BTN4 BTN3 BTN2 BTN1  
 
-Pause and Unpause 
-SW1       SW2
+Pause and Unpause   
+SW1       SW2  
